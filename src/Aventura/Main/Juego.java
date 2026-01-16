@@ -28,9 +28,9 @@ public class Juego {
     // Los objetos que hay en cada habitación.
     // TODO: (Skin) Rellenad esto con vuestros objetos
     private static String[][] objetosMapa = {
-            {null, null},           // Objetos en Habitación 0
-            {null, null},           // Objetos en Habitación 1
-            {"llave", "nota"},      // Objetos en Habitación 2
+            {null, "Nota de traduccion de Codigo Morse"},           // Objetos en Habitación 0
+            {null, "Carne Podrida"},           // Objetos en Habitación 1
+            {"Nota", null},      // Objetos en Habitación 2
     };
 
     // El inventario del jugador. Tamaño fijo.
