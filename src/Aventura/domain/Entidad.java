@@ -14,6 +14,7 @@ public abstract class Entidad {
         return nombre;
     }
 
+
     public String getDescripcion() {
         return descripcion;
     }

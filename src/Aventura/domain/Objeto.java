@@ -16,5 +16,4 @@ public abstract class Objeto extends Entidad{
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
-
 }
