@@ -1,6 +1,6 @@
-package Aventura.domain;
+package aventura.domain;
 
-import Aventura.domain.Objeto;
+import aventura.domain.Objeto;
 
 public class Habitacion extends Entidad {
 
