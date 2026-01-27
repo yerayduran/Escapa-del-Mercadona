@@ -310,4 +310,61 @@ public class Juego {
             System.out.println(resultado.getNombre() + " dejado en la habitación.");
         }
     }
+
+    /**
+     * Permite al jugador cruzar una puerta abierta y finalizar el juego.
+     *
+     * @param partes Comando introducido por el usuario.
+     */
+    private void cruzar(String[] partes) {
+
+        if (partes.length < 2) {
+            System.out.println("Uso: cruzar <puerta>");
+            return;
+        }
+
+        String nombre = partes[1];
+
+        Objeto obj = buscarEnHabitacion(nombre);
+
+        if (!(obj instanceof Puerta puerta)) {
+            System.out.println("No hay '" + nombre + "' aquí para cruzar.");
+            return;
+        }
+
+        if (!puerta.estaAbierto()) {
+            System.out.println("Primero abre la puerta con la llave correcta.");
+            return;
+        }
+
+        System.out.println("""
+                ╔══════════════════════════════════════╗
+                ║ ¡ESCAPASTE DEL MERCADONA!            ║
+                ║ ¡FELICIDADES, HAS GANADO!            ║
+                ║                                      ║
+                ║   *** HACENDADO OUT *** COMPLETADO   ║
+                ╚══════════════════════════════════════╝
+                """);
+
+        System.exit(0);
+    }
+
+    /**
+     * Muestra el menú de ayuda con los comandos disponibles.
+     */
+    private void ayuda() {
+
+        System.out.println("""
+                Comandos disponibles:
+                - izquierda/derecha
+                - mirar
+                - inventario
+                - coger <objeto>
+                - examinar <objeto>
+                - abrir <contenedor>
+                - combinar <obj1> <obj2>
+                - cruzar <puerta>
+                - salir
+                """);
+    }
 }
