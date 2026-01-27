@@ -1,8 +1,11 @@
 package aventura.app;
 
+import aventura.domain.Contenedor;
 import aventura.domain.Objeto;
+import aventura.domain.Puerta;
 import aventura.domain.RespuestaAccion;
 import aventura.exceptions.InventarioLlenoException;
+import aventura.interfaces.Combinable;
 import aventura.interfaces.Leible;
 
 import java.util.Locale;
@@ -161,6 +164,150 @@ public class Juego {
 
         if (objeto instanceof Leible legible) {
             System.out.println("Texto: " + legible.leer());
+        }
+    }
+
+    /**
+     * Permite abrir un contenedor o una puerta.
+     * <p>
+     * Busca automáticamente la llave adecuada
+     * si el jugador la tiene en el inventario.
+     * </p>
+     *
+     * @param partes Comando introducido por el usuario.
+     */
+    private void abrir(String[] partes) {
+
+        if (partes.length < 2) {
+            System.out.println("Uso: abrir <contenedor>");
+            return;
+        }
+
+        String nombreContenedor = partes[1];
+
+        Objeto obj = buscarObjeto(nombreContenedor);
+
+        if (!(obj instanceof Abrible abrible)) {
+            System.out.println("No hay '" + nombreContenedor + "' que se pueda abrir.");
+            return;
+        }
+
+        Llave llave = null;
+
+        if (obj instanceof Contenedor contenedor) {
+            llave = jugador.buscarLlaveParaContenedor(contenedor);
+        }
+
+        if (obj instanceof Puerta) {
+
+            llave = jugador.buscarLlavePorCodigo("5973");
+
+            if (llave == null) {
+                System.out.println("No tienes la llave necesaria para abrir esa puerta.");
+                return;
+            }
+        }
+
+        RespuestaAccion res = abrible.abrir(llave);
+
+        System.out.println(res.mensaje());
+
+        if (!res.esExito()) return;
+
+        if (obj instanceof Puerta && llave != null) {
+
+            boolean quitada = jugador.soltarPorNombre(llave.getNombre());
+
+            if (quitada) {
+                System.out.println("La llave se ha usado y eliminado de tu inventario.");
+            }
+        }
+
+        if (obj instanceof Contenedor contenedor) {
+
+            Objeto contenido = contenedor.verObjetoDentro();
+
+            if (contenido != null) {
+
+                System.out.println("Encuentras: " + contenido.getNombre());
+
+                try {
+
+                    RespuestaAccion r = jugador.coger(contenido);
+
+                    if (r.esExito()) {
+
+                        contenedor.retirarObjetoDentro();
+                        System.out.println("Guardado en inventario.");
+
+                    } else {
+
+                        System.out.println(r.mensaje());
+                    }
+
+                } catch (InventarioLlenoException e) {
+
+                    System.out.println("No hay espacio en inventario.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Permite combinar dos objetos del inventario.
+     *
+     * @param partes Comando introducido por el usuario.
+     */
+    private void combinar(String[] partes) {
+
+        if (partes.length < 3) {
+            System.out.println("Uso: combinar <obj1> <obj2>");
+            return;
+        }
+
+        String nombreA = partes[1];
+        String nombreB = partes[2];
+
+        Objeto a = buscarObjeto(nombreA);
+        Objeto b = buscarObjeto(nombreB);
+
+        if (a == null || b == null) {
+            System.out.println("No encuentro uno de los objetos.");
+            return;
+        }
+
+        if (!jugador.tieneObjeto(a) || !jugador.tieneObjeto(b)) {
+            System.out.println("Ambos objetos deben estar en tu inventario.");
+            return;
+        }
+
+        Objeto resultado = null;
+
+        if (a instanceof Combinable ca) {
+            resultado = ca.combinar(b);
+        } else if (b instanceof Combinable cb) {
+            resultado = cb.combinar(a);
+        }
+
+        if (resultado == null) {
+            System.out.println("Estos objetos no se pueden combinar.");
+            return;
+        }
+
+        System.out.println("¡Combinado exitosamente! Creado: " + resultado.getNombre());
+
+        jugador.soltarPorNombre(nombreA);
+        jugador.soltarPorNombre(nombreB);
+
+        try {
+
+            jugador.coger(resultado);
+            System.out.println(resultado.getNombre() + " añadido al inventario.");
+
+        } catch (InventarioLlenoException e) {
+
+            mapa[habitacionActual].añadirObjeto(resultado);
+            System.out.println(resultado.getNombre() + " dejado en la habitación.");
         }
     }
 }
