@@ -25,7 +25,37 @@ public class Juego {
     private final Scanner scanner = new Scanner(System.in);
 
 
-    static void main(String[] args) {
+    /**
+     * Crea una nueva partida.
+     *
+     * @param mapa Mapa de habitaciones.
+     * @param jugador Jugador del juego.
+     * @param habitacionInicial Posición inicial.
+     */
+    public Juego(Habitacion[] mapa, Jugador jugador, int habitacionInicial) {
+        this.mapa = mapa;
+        this.jugador = jugador;
+        this.habitacionActual = habitacionInicial;
+        this.jugador.setPosicion(habitacionInicial);
+    }
+
+    /**
+     * Punto de entrada principal del programa.
+     * <p>
+     * Inicializa el mapa, objetos, jugador
+     * y lanza el juego.
+     * </p>
+     *
+     * @param args Argumentos de consola.
+     */
+
+    public static void main(String[] args) {
+        Habitacion sala1 = new Habitacion("Zonas de Cajas Registradora", "Te encuentras en las zonas de pagos de este supermercado y por casualidad encuentras en una caja registradora algo especial.");
+        Habitacion sala2 = new Habitacion("Zona de Congelados", "Estás en la zona de congelados del Mercadona y ves una nota pegada a la pared, y otra dentro del congelador.");
+        Habitacion sala3 = new Habitacion("Zona de Descanso", "Una zona muy tranquila pero con algo sospechoso, además se encuentra allí una taquilla.");
+        Habitacion sala4 = new Habitacion("Zona de Carga y Descarga", "Un almacén enorme donde al final ves una puerta cerrada donde se halla la salida.");
+
+        Habitacion[] mapa = new Habitacion[]{sala1, sala2, sala3, sala4};
 
     }
 
