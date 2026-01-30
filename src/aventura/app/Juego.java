@@ -86,6 +86,25 @@ public class Juego {
         juego.iniciar();
     }
 
+    // Inicia el juego y ejecuta el bucle principal.
+    public void iniciar() {
+        System.out.println("=== Bienvenido a HACENDADO OUT ===\n");
+        System.out.println(DESCRIPCION_JUEGO + "\n");
+        System.out.println("Escribe 'ayuda' para ver los comandos disponibles.\n");
+
+        boolean proceso = true;
+        while (proceso) {
+            mostrarHabitacionActual();
+            System.out.println("Comandos: izquierda | derecha | mirar | cruzar <puerta> | inventario | coger <obj> | examinar <obj> | abrir <cont> | combinar <a> <b> | ayuda | salir");
+            System.out.print("\n> ");
+            String linea = scanner.nextLine().toLowerCase(Locale.ROOT);
+            procesarComando(linea);
+            System.out.println();
+        }
+        scanner.close();
+        System.out.println("¡Gracias por jugar!");
+    }
+
     // Muestra la información de la habitación.
     private void mirar() {
         mostrarInfoHabitacion();
