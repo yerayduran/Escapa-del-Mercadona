@@ -57,9 +57,36 @@ public class Juego {
 
         Habitacion[] mapa = new Habitacion[]{sala1, sala2, sala3, sala4};
 
+        SoporteLlave palo = new SoporteLlave("Palo", "Un palo robusto, útil para combinar.", true);
+        CabezaLlave cabeza = new CabezaLlave("Llave", "Un trozo de llave vieja y rota.", true);
+        Nota nota = new Nota("Nota", "Una nota arrugada.", true, "Para salir de aquí es esencial combinar...");
+        Nota nota2 = new Nota("Ticket", "Un ticket con un texto escrito por un antiguo cliente", true, "No tengo mucho tiempo antes de que vengan a por mí, pero ve a la zona de descanso con mi tarjeta y ...");
+        Llave tarjeta = new Llave("Tarjeta", "Tarjeta de empleado en mal estado con código Hacendado.", true, "Hacendado");
+
+        Contenedor caja = new Contenedor("Caja", "Caja registradora que por desgracia no tiene dinero para mis videojuegos, pero se ve que hay algo más", true, null, null);
+        Contenedor congelador = new Contenedor("Congelador", "Congelador estropeado y con comida caducada", true, null, null);
+        Contenedor taquilla = new Contenedor("Taquilla", "Taquilla del empleado la cual tiene muchos arañazos", true, "Hacendado", null);
+
+        sala4.añadirObjeto(palo);
+        Puerta puertaSalida = new Puerta("Puerta", "La puerta final bloqueada. Requiere llave Hacendado completa.", true);
+        sala4.añadirObjeto(puertaSalida);
+
+        sala1.añadirObjeto(caja);
+        caja.ponerObjetoDentro(tarjeta);
+
+        sala2.añadirObjeto(nota);
+        sala2.añadirObjeto(congelador);
+        congelador.ponerObjetoDentro(nota2);
+
+        sala3.añadirObjeto(taquilla);
+        taquilla.ponerObjetoDentro(cabeza);
+
+        Jugador jugador = new Jugador(7);
+        Juego juego = new Juego(mapa, jugador, 0);
+        juego.iniciar();
     }
 
-    // Muestra la informacion de la habitación.
+    // Muestra la información de la habitación.
     private void mirar() {
         mostrarInfoHabitacion();
     }
