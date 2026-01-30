@@ -12,11 +12,168 @@ import java.util.Scanner;
 
 public class Juego {
 
-    static void main(String[] args) {
+    // Array que representa el mapa del juego. Cada posición corresponde a una habitación.
+    private final Habitacion[] mapa;
 
+    // Jugador principal del juego.
+    private final Jugador jugador;
+
+    // Índice de la habitación en la que se encuentra el jugador.
+    private int habitacionActual;
+
+    // Scanner utilizado para leer los comandos del usuario.
+    private final Scanner scanner = new Scanner(System.in);
+
+    /**
+     * Texto introductorio que describe la historia del juego.
+     */
+    private static final String DESCRIPCION_JUEGO =
+            "Estabas cagando en el baño de un Mercadona random, tenías mucho sueño porque habías estado toda la noche " +
+                    "jugando al Call of Duty. De repente te quedas dormido y cuando despiertas, en vez de estar sentado" +
+                    " en aquel váter, estás en una sala totalmente a oscuras.\n" +
+                    "Te levantas y se enciende la sala. Ya no estás en aquel baño cutre del Mercadona, ahora estás en un lugar" +
+                    " desconocido. Comienzas a caminar por pasillos interminables hasta que ves una luz en la distancia. A medida " +
+                    "que avanzas, todo se vuelve más brillante y colorido.\n" +
+                    "Finalmente, emerges a la Zona de Cajas Registradoras.";
+    /**
+     * Crea una nueva partida.
+     *
+     * @param mapa Mapa de habitaciones.
+     * @param jugador Jugador del juego.
+     * @param habitacionInicial Posición inicial.
+     */
+    public Juego(Habitacion[] mapa, Jugador jugador, int habitacionInicial) {
+        this.mapa = mapa;
+        this.jugador = jugador;
+        this.habitacionActual = habitacionInicial;
+        this.jugador.setPosicion(habitacionInicial);
     }
 
-    // Muestra la informacion de la habitación.
+    /**
+     * Punto de entrada principal del programa.
+     * <p>
+     * Inicializa el mapa, objetos, jugador
+     * y lanza el juego.
+     * </p>
+     *
+     * @param args Argumentos de consola.
+     */
+
+    public static void main(String[] args) {
+        Habitacion sala1 = new Habitacion("Zonas de Cajas Registradora", "Te encuentras en las zonas de pagos de este supermercado y por casualidad encuentras en una caja registradora algo especial.");
+        Habitacion sala2 = new Habitacion("Zona de Congelados", "Estás en la zona de congelados del Mercadona y ves una nota pegada a la pared, y otra dentro del congelador.");
+        Habitacion sala3 = new Habitacion("Zona de Descanso", "Una zona muy tranquila pero con algo sospechoso, además se encuentra allí una taquilla.");
+        Habitacion sala4 = new Habitacion("Zona de Carga y Descarga", "Un almacén enorme donde al final ves una puerta cerrada donde se halla la salida.");
+
+        Habitacion[] mapa = new Habitacion[]{sala1, sala2, sala3, sala4};
+
+        SoporteLlave palo = new SoporteLlave("Palo", "Un palo robusto, útil para combinar.", true);
+        CabezaLlave cabeza = new CabezaLlave("Llave", "Un trozo de llave vieja y rota.", true);
+        Nota nota = new Nota("Nota", "Una nota arrugada.", true, "Para salir de aquí es esencial combinar...");
+        Nota nota2 = new Nota("Ticket", "Un ticket con un texto escrito por un antiguo cliente", true, "No tengo mucho tiempo antes de que vengan a por mí, pero ve a la zona de descanso con mi tarjeta y ...");
+        Llave tarjeta = new Llave("Tarjeta", "Tarjeta de empleado en mal estado con código Hacendado.", true, "Hacendado");
+
+        Contenedor caja = new Contenedor("Caja", "Caja registradora que por desgracia no tiene dinero para mis videojuegos, pero se ve que hay algo más", true, null, null);
+        Contenedor congelador = new Contenedor("Congelador", "Congelador estropeado y con comida caducada", true, null, null);
+        Contenedor taquilla = new Contenedor("Taquilla", "Taquilla del empleado la cual tiene muchos arañazos", true, "Hacendado", null);
+
+        sala4.añadirObjeto(palo);
+        Puerta puertaSalida = new Puerta("Puerta", "La puerta final bloqueada. Requiere llave Hacendado completa.", true);
+        sala4.añadirObjeto(puertaSalida);
+
+        sala1.añadirObjeto(caja);
+        caja.ponerObjetoDentro(tarjeta);
+
+        sala2.añadirObjeto(nota);
+        sala2.añadirObjeto(congelador);
+        congelador.ponerObjetoDentro(nota2);
+
+        sala3.añadirObjeto(taquilla);
+        taquilla.ponerObjetoDentro(cabeza);
+
+        Jugador jugador = new Jugador(7);
+        Juego juego = new Juego(mapa, jugador, 0);
+        juego.iniciar();
+    }
+
+    // Inicia el juego y ejecuta el bucle principal.
+    public void iniciar() {
+        System.out.println("=== Bienvenido a HACENDADO OUT ===\n");
+        System.out.println(DESCRIPCION_JUEGO + "\n");
+        System.out.println("Escribe 'ayuda' para ver los comandos disponibles.\n");
+
+        boolean proceso = true;
+        while (proceso) {
+            mostrarHabitacionActual();
+            System.out.println("Comandos: izquierda | derecha | mirar | cruzar <puerta> | inventario | coger <obj> | examinar <obj> | abrir <cont> | combinar <a> <b> | ayuda | salir");
+            System.out.print("\n> ");
+            String linea = scanner.nextLine().toLowerCase(Locale.ROOT);
+            procesarComando(linea);
+            System.out.println();
+        }
+        scanner.close();
+        System.out.println("¡Gracias por jugar!");
+    }
+
+    // Muestra el nombre y descripción de la habitación actual.
+    private void mostrarHabitacionActual() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("Estás en: " + mapa[habitacionActual].getNombre());
+        System.out.println("--------------------------------------------------");
+        mostrarInfoHabitacion();
+    }
+
+    /**
+     * Analiza y ejecuta el comando introducido por el usuario.
+     *
+     * @param linea Texto introducido.
+     */
+    private void procesarComando(String linea) {
+        String[] partes = linea.split("\\s+");
+        String comando = partes[0];
+
+        switch (comando) {
+            case "izquierda" -> moverIzquierda();
+            case "derecha" -> moverDerecha();
+            case "mirar" -> mirar();
+            case "inventario" -> inventario();
+            case "coger" -> coger(partes);
+            case "cruzar" -> cruzar(partes);
+            case "examinar" -> examinar(partes);
+            case "abrir" -> abrir(partes);
+            case "combinar" -> combinar(partes);
+            case "ayuda" -> ayuda();
+            case "salir" -> {
+                System.out.println("Saliendo... ¡Hasta luego!");
+                System.exit(0);
+            }
+            default -> System.out.println("Comando no reconocido. Escribe 'ayuda'.");
+        }
+    }
+
+    // Mueve al jugador a la habitacion de la derecha.
+    private void moverDerecha() {
+        if (habitacionActual < mapa.length - 1) {
+            habitacionActual++;
+            jugador.setPosicion(habitacionActual);
+            System.out.println("Te has movido a la habitación de la derecha.");
+        } else {
+            System.out.println("No puedes ir más a la derecha.");
+        }
+    }
+
+    // Mueve al jugador a la habitacion de la izquierda.
+    private void moverIzquierda() {
+        if (habitacionActual > 0) {
+            habitacionActual--;
+            jugador.setPosicion(habitacionActual);
+            System.out.println("Te has movido a la habitación de la izquierda.");
+        } else {
+            System.out.println("No puedes ir más a la izquierda.");
+        }
+    }
+
+    // Muestra la información de la habitación.
     private void mirar() {
         mostrarInfoHabitacion();
     }
