@@ -105,6 +105,42 @@ public class Juego {
         System.out.println("¡Gracias por jugar!");
     }
 
+    // Muestra el nombre y descripción de la habitación actual.
+    private void mostrarHabitacionActual() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("Estás en: " + mapa[habitacionActual].getNombre());
+        System.out.println("--------------------------------------------------");
+        mostrarInfoHabitacion();
+    }
+
+    /**
+     * Analiza y ejecuta el comando introducido por el usuario.
+     *
+     * @param linea Texto introducido.
+     */
+    private void procesarComando(String linea) {
+        String[] partes = linea.split("\\s+");
+        String comando = partes[0];
+
+        switch (comando) {
+            case "izquierda" -> moverIzquierda();
+            case "derecha" -> moverDerecha();
+            case "mirar" -> mirar();
+            case "inventario" -> inventario();
+            case "coger" -> coger(partes);
+            case "cruzar" -> cruzar(partes);
+            case "examinar" -> examinar(partes);
+            case "abrir" -> abrir(partes);
+            case "combinar" -> combinar(partes);
+            case "ayuda" -> ayuda();
+            case "salir" -> {
+                System.out.println("Saliendo... ¡Hasta luego!");
+                System.exit(0);
+            }
+            default -> System.out.println("Comando no reconocido. Escribe 'ayuda'.");
+        }
+    }
+
     // Muestra la información de la habitación.
     private void mirar() {
         mostrarInfoHabitacion();
