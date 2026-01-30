@@ -28,7 +28,13 @@ public class Juego {
      * Texto introductorio que describe la historia del juego.
      */
     private static final String DESCRIPCION_JUEGO =
-            "";
+            "Estabas cagando en el baño de un Mercadona random, tenías mucho sueño porque habías estado toda la noche " +
+                    "jugando al Call of Duty. De repente te quedas dormido y cuando despiertas, en vez de estar sentado" +
+                    " en aquel váter, estás en una sala totalmente a oscuras.\n" +
+                    "Te levantas y se enciende la sala. Ya no estás en aquel baño cutre del Mercadona, ahora estás en un lugar" +
+                    " desconocido. Comienzas a caminar por pasillos interminables hasta que ves una luz en la distancia. A medida " +
+                    "que avanzas, todo se vuelve más brillante y colorido.\n" +
+                    "Finalmente, emerges a la Zona de Cajas Registradoras.";
     /**
      * Crea una nueva partida.
      *
