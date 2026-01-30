@@ -46,7 +46,7 @@ public class Juego {
                     "Te levantas y se enciende la sala. Ya no estás en aquel baño cutre del Palacio Presidencial, ahora estás en un lugar" +
                     " desconocido. Comienzas a caminar por pasillos llenos de cuadros de Maduro y fotos edgy de Diddy. A medida " +
                     "que avanzas, todo se vuelve más absurdo y lleno de contenido viral.\n" +
-                    "Finalmente, emerges a la Zona de Safes donde Diddy guardaba sus... 'juguetes' especiales.";
+                    "Finalmente, emerges a la Zona de Safes donde Diddy guardaba sus...'juguetes' especiales.";
     /**
      * Crea una nueva partida.
      *
