@@ -6,12 +6,12 @@
 
 ---
 
-## 📖 Nuestra Historia (El Scape Room Hacendado)
+## 📖 Nuestra Historia (Escapa de Epstein´s Island)
 
-**Temática del Juego:** Escape Room en el Mercadona.
+**Temática del Juego:** Escapa de Epstein´s Island
 
 **Premisa:**
-> Estabas cagando en el baño de un Mercadona random, tenías mucho sueño porque habías estado toda la noche jugando al call of duty, de repente notas cómo tus parpados empiezan a cerrarse. Al final te quedas dormido por viciar toda\n la noche y resulta que, cuando te despiertas, en vez de estar sentado en aquel váter estas en una especie de sillón en una sala totalmente a oscuras. Cuando te levantas, se te enciende la sala en la que estás. Ya no estás en aquel baño cutre del Mercadona, ahora estabas en un lugar totalmente desconocido.
+> Estabas tirado en el baño de la villa de Maduro, tenías mucho sueño porque habías estado toda la noche mirando reels de Trump diciendo 'FAKE NEWS' en X. De repente te quedas dormido y cuando despiertas, en vez de estar sentado en aquel váter, estás en una sala totalmente a oscuras. Te levantas y se enciende la sala. Ya no estás en aquel baño cutre del Palacio Presidencial, ahora estás en un lugar desconocido. Comienzas a caminar por pasillos llenos de cuadros de Maduro y fotos edgy de Diddy. A medida que avanzas, todo se vuelve más absurdo y lleno de contenido viral. Finalmente, emerges a la Zona de Safes donde Diddy guardaba sus... 'juguetes' especiales.
 
 **Objetivo:**
 Explorar las pistas y encontrar una forma de salir del sitio misterioso.
@@ -35,8 +35,34 @@ Esta primera versión del proyecto (Misión 1 / UD1-UD3) implementa el "núcleo"
 * Arrays
 * Git
 
+---
+
+## ⚙️ Estado del Proyecto (Fase 2: POO)
+
+Esta fase refactoriza el motor básico (Fase 1) a Programación Orientada a Objetos. 
+
+El objetivo es convertir el diseño procedural en un diseño con clases claras (Habitacion, Jugador, Objeto), usar colecciones en lugar de arrays y mejorar la mantenibilidad y extensibilidad del juego.
+
+**Funcionalidad de la Fase:**
+
+* **Arquitectura OOP con clases principales**: (`Objeto`, `Entidad`, `Habitacion`, ...)
+* **Bucle de juego principal** implementado en una clase Juego (main) que usa los objetos anteriores.
+* **Inventario:** En la clase `Jugador.java`
+* **Conexiones entre habitaciones**: Con los comandos `ir izquierda` / `derecha`
+* **Mejora de la separación de responsabilidades y preparación para añadir**: persistencia (`guardar/cargar`), items con propiedades, ...
+
+**Tecnologías (Fase 2):**
+
+* Java (JDK)
+* Programación Orientada a Objetos
+* Colecciones (ArrayList, HashMap)
+* Arrays
+* Interfaces
+* Records
+* Excepciones
+* Git
+
 ## 🔜 Próximas Fases
 
-* **Fase 2 (POO):** Refactorizar este código a Programación Orientada a Objetos (Clases `Habitacion`, `Jugador`, `Objeto`).
 * **Fase 3 (Colecciones/Ficheros):** Cambiar los arrays del inventario por `ArrayLists` y añadir un sistema de **Guardar/Cargar Partida**.
 * **Fase 4 (GUI/BBDD):** Crear una interfaz gráfica (GUI) y conectar a una base de datos para guardar progresos o logros.
